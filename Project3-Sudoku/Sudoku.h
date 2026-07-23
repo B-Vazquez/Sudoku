@@ -22,6 +22,7 @@ public:
 	// Class-member Functions
 	const Sudoku& operator = (const Sudoku&); // Assignment operator
 	void loadData(istream&); // Read in the puzzle from an input stream
+	void verifyBoard(); // Verify the board loaded from the input stream
 	void find_All_Solutions(ostream&); // Wrapper function
 
 private:
@@ -35,8 +36,8 @@ private:
 	// Class-member Functions
 	int nextRowIndex(int, int) const; // Row index of the next cell (row-major order).
 	int nextColIndex(int, int) const; // Column index of the next cell (row-major order).
-	bool inSameRow(int, char) const; // Test if a digit already appears in a row.
-	bool inSameCol(int, char) const; // Test if a digit already appears in a columns
+	bool inSameRow(int, char, int) const; // Test if a digit already appears in a row.
+	bool inSameCol(int, char, int) const; // Test if a digit already appears in a columns
 	bool inSameGrid(int, int, char) const; // Test if a digit already appears in a 3-by-3 grid.
 	void find_All_Solutions(int, int, ostream&); // Find all solutions for the given board
 	void printSolution(ostream&); // Writes the current solution to the output stream

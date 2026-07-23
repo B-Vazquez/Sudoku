@@ -1,4 +1,5 @@
 #include "Sudoku.h"
+#include <stdexcept>
 
 // Stores the size of the board
 const int Sudoku::SIZE = 16;
@@ -53,15 +54,45 @@ const Sudoku& Sudoku::operator = (const Sudoku& rhs) {
 	return *this;
 }
 
-/*	Loads the board stored an input stream into the board 
+/*	Loads the board stored in input stream into the board 
 	@param in: An input stream
 */
 void Sudoku::loadData(istream& in) {
 	string currentLine;
 	for (int row = 0; row < SIZE; row++) {
-		getline(in, currentLine);
+		if (!getline(in, currentLine) || currentLine.size() != SIZE) {
+			throw std::runtime_error("Error: Input file does not contain a valid board. The board should be a 16x16 grid consisting of '.' and hexadecimal digits.");
+		}
 		for (int col = 0; col < SIZE; col++) {
 			board[row][col] = currentLine[col];
+		}
+	}
+}
+
+/* Verifies the board loaded from the input stream.
+*/
+void Sudoku::verifyBoard() {
+	for (int row = 0; row < SIZE; row++) {
+		for (int col = 0; col < SIZE; col++) {
+			char currentChar = board[row][col];
+			bool validChar = (currentChar == BLANK);
+
+			if (!validChar) {
+				for (int digit = 0; digit < SIZE; digit++) {
+					if (currentChar == HEX_DIGITS[digit]) {
+						validChar = true;
+						break;
+					}
+				}
+			}
+			if (!validChar) {
+				throw std::runtime_error("Error: Input file does not contain a valid board. The board should be a 16x16 grid consisting of '.' and hexadecimal digits.");
+			}
+			if (currentChar != BLANK) {
+				if (inSameRow(row, currentChar, col) || inSameCol(col, currentChar, row) || inSameGrid(row, col, currentChar)){
+					throw std::runtime_error("Error: Input file contains a board with duplicate values in a row/column/grid.");
+				}
+			}
 		}
 	}
 }
@@ -91,11 +122,12 @@ int Sudoku::nextColIndex(int row, int col) const {
 /*	Test if a digit already appears in a row.
 	@param row: The current row
 	@param digit: The digit to check for
+	@param currCol: The column of the current digit
 	@return: True if the digit is found in the current row, false if it is not
 */
-bool Sudoku::inSameRow(int row, char digit) const {
+bool Sudoku::inSameRow(int row, char digit, int currCol) const {
 	for (int col = 0; col < SIZE; col++) {
-		if (board[row][col] == digit) {
+		if (board[row][col] == digit && col != currCol) {
 			return true;
 		}
 	}
@@ -105,11 +137,12 @@ bool Sudoku::inSameRow(int row, char digit) const {
 /*	Test if a digit already appears in a column.
 	@param col: The current column
 	@param digit: The digit to check for
+	@param currRow: The row of the current diggit
 	@return: True if the digit is found in the current column, false if it is not
 */
-bool Sudoku::inSameCol(int col, char digit) const {
+bool Sudoku::inSameCol(int col, char digit, int currRow) const {
 	for (int row = 0; row < SIZE; row++) {
-		if (board[row][col] == digit) {
+		if (board[row][col] == digit && row != currRow) {
 			return true;
 		}
 	}
@@ -126,7 +159,7 @@ bool Sudoku::inSameGrid(int row, int col, char digit) const {
 	int gridStartRow = row / 4 * 4, gridStartCol = col / 4 * 4;
 	for (int i = gridStartRow; i < gridStartRow + 4; i++) {
 		for (int j = gridStartCol; j < gridStartCol + 4; j++) {
-			if (board[i][j] == digit) {
+			if (board[i][j] == digit && (i != row && j != col)) {
 				return true;
 			}
 		}
@@ -167,8 +200,8 @@ void Sudoku::find_All_Solutions(int row, int col, ostream& out) {
 		for (int i = 0; i < SIZE; i++) {
 			char digit = HEX_DIGITS[i];
 
-			if (inSameRow(row, digit)) { continue; }
-			if (inSameCol(col, digit)) { continue; }
+			if (inSameRow(row, digit, col)) { continue; }
+			if (inSameCol(col, digit, row)) { continue; }
 			if (inSameGrid(row, col, digit)) { continue; }
 
 			// Fill the cell with the current digit
