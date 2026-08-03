@@ -27,11 +27,11 @@ public:
 
 private:
 	// Data fields
-	char** board; // 2-Dimensional array storing the value of each cell in a 16-by-16 sudoku board
-	static const char HEX_DIGITS[]; // Array storing all possible values for a given cell
-	static const int SIZE; // Stores the size of the board
-	static const char BLANK; // Character representing a blank on the board
-	unsigned int num_of_solutions; // Stores the number of solutions
+	char** board; // Row-major dynamic array used to store the 16x16 puzzle grid.
+	static const char HEX_DIGITS[]; // Legal symbols for a valid hexadecimal Sudoku cell.
+	static const int SIZE; // Number of rows and columns in the puzzle.
+	static const char BLANK; // Symbol used to represent an empty cell.
+	unsigned int num_of_solutions; // Number of solutions written to the output stream.
 
 	// Class-member Functions
 	int nextRowIndex(int, int) const; // Row index of the next cell (row-major order).

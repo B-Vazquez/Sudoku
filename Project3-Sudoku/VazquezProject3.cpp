@@ -6,33 +6,39 @@
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	// Opens input file
+	// Reads the puzzle from the expected input file in th current working directory.
 	ifstream inputFile("puzzle.txt");
 
-	// Checks if the input file was opened successfully
+	// Report a missing input file before attempting to solve anything.
 	if (!inputFile) {
-		cout << argv[0] << endl;
-		cout << "Error: input file does not exist. Please encure the input file is stored in the above directory." << endl;
+		cerr << argv[0] << endl;
+		cerr << "Error: input file does not exist. Please ensure the input file is stored in the current working directory." << endl;
 		return -1;
 	}
-	// Opens/creates the output file
+
+	// Create the output file that will hold the discovered solutions.
 	ofstream outputFile("solution.txt");
-
-
-	Sudoku puzzle; // Object that stores and solves a sudoku board
-	try{
-		puzzle.loadData(inputFile); // Passes the input file into function 'loadData' to store the given sudoku board
-		puzzle.verifyBoard(); // Verifies the board loaded from the input file.
+	if (!outputFile) {
+		cerr << "Error: unable to create the output file 'solution.txt'." << endl;
+		inputFile.close();
+		return -1;
 	}
-	catch (const exception& e){
+
+	Sudoku puzzle; // Stores the puzzle board and its solving state.
+	try {
+		puzzle.loadData(inputFile); // Read the 16x16 puzzle from the input stream.
+		puzzle.verifyBoard(); // Confirm the board contains only legal Sudoku symbols and no duplicates.
+	}
+	catch (const exception& e) {
 		outputFile << e.what() << endl;
 		inputFile.close();
 		outputFile.close();
 		return -1;
 	}
-	puzzle.find_All_Solutions(outputFile); // Calls function 'find_All_Solutions' to find all solutions and write them to the given output file
 
-	// Closes the input and output file
+	puzzle.find_All_Solutions(outputFile); // Generate and write every valid solution.
+
+	// Close both files once the solving step has completed.
 	inputFile.close();
 	outputFile.close();
 

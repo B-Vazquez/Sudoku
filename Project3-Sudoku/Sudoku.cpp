@@ -54,8 +54,10 @@ const Sudoku& Sudoku::operator = (const Sudoku& rhs) {
 	return *this;
 }
 
-/*	Loads the board stored in input stream into the board 
-	@param in: An input stream
+/*
+	Loads the puzzle grid from the input stream.
+	Each line must contain exactly SIZE characters, matching the expected 16x16 Sudoku format.
+	@param in: An input stream containing the puzzle rows.
 */
 void Sudoku::loadData(istream& in) {
 	string currentLine;
@@ -69,7 +71,8 @@ void Sudoku::loadData(istream& in) {
 	}
 }
 
-/* Verifies the board loaded from the input stream.
+/*
+	Validates each board cell and checks for duplicate values within the same row, column, or 4x4 sub-grid.
 */
 void Sudoku::verifyBoard() {
 	for (int row = 0; row < SIZE; row++) {
@@ -167,8 +170,9 @@ bool Sudoku::inSameGrid(int row, int col, char digit) const {
 	return false;
 }
 
-/*	Writes the current solution to the output stream
-	@param out: An output stream
+/*
+	Writes the current completed board to the output stream.
+	@param out: An output stream for the solution report.
 */
 void Sudoku::printSolution(ostream& out) {
 	out << "Solution " << ++num_of_solutions << endl << endl;
@@ -181,10 +185,11 @@ void Sudoku::printSolution(ostream& out) {
 	out << endl;
 }
 
-/*	Finds all possible solutions for the given board
-	@param row: The current row
-	@param col: The current column
-	@param out: An output stream
+/*
+	Recursively explores the puzzle using backtracking to find every valid completion.
+	@param row: The current row index in row-major traversal.
+	@param col: The current column index in row-major traversal.
+	@param out: The output stream used to write discovered solutions.
 */
 void Sudoku::find_All_Solutions(int row, int col, ostream& out) {
 	if (row == -1 || col == -1) { // Base case
@@ -214,7 +219,7 @@ void Sudoku::find_All_Solutions(int row, int col, ostream& out) {
 	}
 }
 
-// Wrapper function
+// Wrapper function that starts the recursive search from the upper-left corner of the grid.
 void Sudoku::find_All_Solutions(ostream& out){
 	find_All_Solutions(0, 0, out);
 }
