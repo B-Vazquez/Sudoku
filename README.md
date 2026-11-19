@@ -11,15 +11,27 @@ This project reads a 16x16 hexadecimal Sudoku puzzle from `puzzle.txt`, validate
 
 ## File roles
 
-- `Project3-Sudoku/VazquezProject3.cpp` — program entry point that opens the input and output files and starts the solving process.
-- `Project3-Sudoku/Sudoku.h` — class declaration for the solver.
-- `Project3-Sudoku/Sudoku.cpp` — puzzle loading, validation, and recursive solving logic.
+- `Sudoku/main.cpp` — program entry point that opens the input and output files and starts the solving process.
+- `Sudoku/Sudoku.h` — class declaration for the solver.
+- `Sudoku/Sudoku.cpp` — puzzle loading, validation, and recursive solving logic.
 - `puzzle.txt` — sample puzzle input.
 - `solution.txt` — output file generated when the program runs.
 
 ## Build and run
 
-From the workspace root, compile and run the project with your preferred C++ toolchain. In Visual Studio Code, the provided solution can be used to build and run the project.
+From the workspace root, compile the project with:
+
+```sh
+g++ -std=c++17 -Wall -Wextra -pedantic Sudoku/main.cpp Sudoku/Sudoku.cpp -o sudoku
+```
+
+Run it from the workspace root so `puzzle.txt` is found:
+
+```sh
+./sudoku
+```
+
+The solutions are written to `solution.txt`.
 
 Important runtime note:
 - The program expects `puzzle.txt` to exist in the working directory where the executable is launched.

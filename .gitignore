@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 *.exe
+
+# Local build and solver output
+/sudoku
+/Sudoku/solution.txt

@@ -30,7 +30,7 @@ int main(int argc, char * argv[]) {
 		puzzle.verifyBoard(); // Confirm the board contains only legal Sudoku symbols and no duplicates.
 	}
 	catch (const exception& e) {
-		outputFile << e.what() << endl;
+		cerr << e.what() << endl;
 		inputFile.close();
 		outputFile.close();
 		return -1;

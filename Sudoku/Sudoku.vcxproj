@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c304b7d5-66a7-4d55-972d-60166eccad88}</ProjectGuid>
-    <RootNamespace>Project3Sudoku</RootNamespace>
+    <RootNamespace>Sudoku</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Sudoku.cpp" />
     <ClCompile Include="Sudoku.h" />
-    <ClCompile Include="VazquezProject3.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

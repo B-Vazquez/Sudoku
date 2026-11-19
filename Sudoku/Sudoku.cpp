@@ -59,10 +59,16 @@ const Sudoku& Sudoku::operator = (const Sudoku& rhs) {
 	Each line must contain exactly SIZE characters, matching the expected 16x16 Sudoku format.
 	@param in: An input stream containing the puzzle rows.
 */
-void Sudoku::loadData(istream& in) {
-	string currentLine;
+void Sudoku::loadData(std::istream& in) {
+	std::string currentLine;
 	for (int row = 0; row < SIZE; row++) {
-		if (!getline(in, currentLine) || currentLine.size() != SIZE) {
+		if (!std::getline(in, currentLine)) {
+			throw std::runtime_error("Error: Input file does not contain a valid board. The board should be a 16x16 grid consisting of '.' and hexadecimal digits.");
+		}
+		if (!currentLine.empty() && currentLine.back() == '\r') {
+			currentLine.pop_back();
+		}
+		if (currentLine.size() != SIZE) {
 			throw std::runtime_error("Error: Input file does not contain a valid board. The board should be a 16x16 grid consisting of '.' and hexadecimal digits.");
 		}
 		for (int col = 0; col < SIZE; col++) {
@@ -162,7 +168,7 @@ bool Sudoku::inSameGrid(int row, int col, char digit) const {
 	int gridStartRow = row / 4 * 4, gridStartCol = col / 4 * 4;
 	for (int i = gridStartRow; i < gridStartRow + 4; i++) {
 		for (int j = gridStartCol; j < gridStartCol + 4; j++) {
-			if (board[i][j] == digit && (i != row && j != col)) {
+			if (board[i][j] == digit && !(i == row && j == col)) {
 				return true;
 			}
 		}
@@ -174,15 +180,15 @@ bool Sudoku::inSameGrid(int row, int col, char digit) const {
 	Writes the current completed board to the output stream.
 	@param out: An output stream for the solution report.
 */
-void Sudoku::printSolution(ostream& out) {
-	out << "Solution " << ++num_of_solutions << endl << endl;
+void Sudoku::printSolution(std::ostream& out) {
+	out << "Solution " << ++num_of_solutions << std::endl << std::endl;
 	for (int row = 0; row < SIZE; row++) {
 		for (int col = 0; col < SIZE; col++) {
 			out << board[row][col];
 		}
-		out << endl;
+		out << std::endl;
 	}
-	out << endl;
+	out << std::endl;
 }
 
 /*
@@ -191,7 +197,7 @@ void Sudoku::printSolution(ostream& out) {
 	@param col: The current column index in row-major traversal.
 	@param out: The output stream used to write discovered solutions.
 */
-void Sudoku::find_All_Solutions(int row, int col, ostream& out) {
+void Sudoku::find_All_Solutions(int row, int col, std::ostream& out) {
 	if (row == -1 || col == -1) { // Base case
 		printSolution(out); // Solution found
 		return;
@@ -220,6 +226,9 @@ void Sudoku::find_All_Solutions(int row, int col, ostream& out) {
 }
 
 // Wrapper function that starts the recursive search from the upper-left corner of the grid.
-void Sudoku::find_All_Solutions(ostream& out){
+void Sudoku::find_All_Solutions(std::ostream& out){
 	find_All_Solutions(0, 0, out);
+	if(num_of_solutions == 0){
+		out << "No solutions found." << std::endl;
+	}
 }
