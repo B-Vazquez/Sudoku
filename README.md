@@ -22,13 +22,13 @@ This project reads a 16x16 hexadecimal Sudoku puzzle from `puzzle.txt`, validate
 From the workspace root, compile the project with:
 
 ```sh
-g++ -std=c++17 -Wall -Wextra -pedantic Sudoku/main.cpp Sudoku/Sudoku.cpp -o sudoku
+g++ -std=c++17 -Wall -Wextra -pedantic Sudoku/main.cpp Sudoku/Sudoku.cpp -o sudoku-solver
 ```
 
 Run it from the workspace root so `puzzle.txt` is found:
 
 ```sh
-./sudoku
+./sudoku-solver
 ```
 
 The solutions are written to `solution.txt`.

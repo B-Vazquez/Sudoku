@@ -5,7 +5,7 @@
       "name": "Sudoku",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/sudoku",
+      "program": "${workspaceFolder}/sudoku-solver",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

@@ -14,7 +14,7 @@
         "${workspaceFolder}/Sudoku/main.cpp",
         "${workspaceFolder}/Sudoku/Sudoku.cpp",
         "-o",
-        "${workspaceFolder}/sudoku"
+        "${workspaceFolder}/sudoku-solver"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
