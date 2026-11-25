@@ -365,6 +365,5 @@ FodyWeavers.xsd
 *.exe
 
 # Local build and solver output
-/sudoku
 /sudoku-solver
 /Sudoku/solution.txt
